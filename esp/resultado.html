@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #a8e063 0%, #56ab2f 100%);
+            font-family: 'Press Start 2P', system-ui;
+            font-weight: 500;
+        }
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border: 4px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+        .container h1 {
+            margin-bottom: 30px;
+            font-size: 32px;
+            color: #fff;
+        }
+        .button, .submit-button {
+            display: block;
+            margin: 15px auto;
+            padding: 15px 30px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'Press Start 2P', system-ui;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .button:hover, .submit-button:hover {
+            background-color: #444;
+            transform: scale(1.05);
+        }
+        .return-button {
+            margin-top: 20px;
+            font-size: 24px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 15px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .return-button:hover {
+            background-color: #444;
+            transform: scale(1.1);
+        }
+        .result-text {
+            color: #fff;
+            font-size: 20px;
+            font-family: 'Press Start 2P', system-ui;
+            margin-left: 20px;
+            text-align: left;
+        }
+        .result-value {
+            color: orange;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resultado</h1>
+        <form id="resultForm" action="guardar_datos.php" method="POST">
+            <p class="result-text">Nombre: <span id="nombre" class="result-value"></span></p>
+            <input type="hidden" id="nombre_input" name="nombre" value="">
+            <p class="result-text">Puntuación: <span id="puntuacion" class="result-value"></span></p>
+            <input type="hidden" id="puntuacion_input" name="puntuacion" value="">
+            <p class="result-text">Enemigos derrotados: <span id="enemigos" class="result-value"></span></p>
+            <input type="hidden" id="enemigos_input" name="enemigos" value="">
+            <p class="result-text">Tiempo jugado: <span id="tiempo" class="result-value"></span></p>
+            <input type="hidden" id="tiempo_input" name="tiempo" value="">
+            <button type="submit" class="submit-button">Enviar Datos</button>
+        </form>
+                
+    </div>
+    <a href="../WiddleAdventure.html" class="return-button">&#x21A9;</a>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nombre = localStorage.getItem('nombre');
+        document.getElementById('nombre').textContent = nombre || 'Desconocido';
+        document.getElementById('nombre_input').value = nombre || '';
+
+        const tiempoJugado = localStorage.getItem('counter_result');
+        const formattedTime = tiempoJugado ? formatTime(parseInt(tiempoJugado, 10)) : '00:00:00';
+        document.getElementById('tiempo').textContent = tiempoJugado ? formattedTime : '00:00:00';
+        document.getElementById('tiempo_input').value = tiempoJugado ? formattedTime : '00:00:00';
+
+        const puntuacion = localStorage.getItem('puntuacion');
+        document.getElementById('puntuacion').textContent = puntuacion || '';
+        document.getElementById('puntuacion_input').value = puntuacion || '';
+
+        const enemigos = localStorage.getItem('enemigos');
+        document.getElementById('enemigos').textContent = enemigos || '';
+        document.getElementById('enemigos_input').value = enemigos || '';
+    });
+
+    function formatTime(seconds) {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+
+        return `${pad(hours)}:${pad(minutes)}:${pad(remainingSeconds)}`;
+    }
+
+    function pad(value) {
+        return value < 10 ? '0' + value : value;
+    }
+    </script>
+    <script src="./js/utils.js"></script>
+</body>
+</html>
